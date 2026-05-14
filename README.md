@@ -12,7 +12,7 @@ Now choose a region for your server. I chose the East Asia region.
 Scroll down and choose a zone as per your need, or leave it as default.
 After that, in the image drop-down bar, click the Ubuntu Server 24.04 x64 Gen2.
 The next step is to choose an appropriate VM size based on your server's needs. The Standard_B2ats_v2 works well for a small web server.
-For the authentication type, leave it on SSH public key and save this key in a safe disk space. If you lose this key, you will not be able to gain access to the server.
+For the authentication type, leave it on SSH public key and save this key in a safe disk space. You should be able to download this key in the last step when you create the Virtual Machine. If you lose this key, you will not be able to gain access to the server.
 Type a name for your key if it is not already filled in.
 Next, select these three ports: HTTP, HTTPS, and SSH.
 Click next.
@@ -22,3 +22,5 @@ Now click Next: Networking.
 Here, choose a Virtual network and a subnet if not already set by default.
 Leave everything else as default and move to review and create.
 If you run into any error, retrace your steps.
+After creating your Virtual machine, get the IP address.
+Next step is to SSH into your server and gain access.
