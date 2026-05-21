@@ -24,3 +24,69 @@ Leave everything else as default and move to review and create.
 If you run into any error, retrace your steps.
 After creating your Virtual machine, get the IP address.
 Next step is to SSH into your server and gain access.
+# SSH into the server
+go into the terminal from location where you private key is located. To do this right click on the empty space in the location and click open in terminal
+in your windows terminal type:
+icacls "Booking_key.pem" /inheritance:r /grant:r "YourWindowsUsername:R"
+or for linux users type:
+chmod 400 your_key.pem
+then
+ssh -i your_key.pem username@your-ip
+you should have access to the server now
+# installing nginx
+type the following commands
+sudo apt update
+sudo apt update -y
+sudo apt install nginx -y
+enable nginx by typing
+sudo systemctl start nginx
+sudo systemctl enable nginx
+# html code
+nano into your html file and paste your html code in there by typing
+nano /var/www/html/index.html
+# installign PHP for your php files
+type 
+sudo apt install php-fpm php-cli -y
+check version number:
+php -v
+# configure Nginx to process php
+sudo nano /etc/nginx/sites-available/default
+find the location - \.php code and replace it with 
+location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+}
+reload Nginx:
+sudo nginx -t
+sudo systemctl reload nginx
+# Deploying web files
+create files for different sections of your webserver and paste the code
+1. sudo nano /var/www/html/admin.php
+2. sudo nano /var/www/html/chat.php
+
+
+# Ensure nginx can read your files 
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html
+# DNS configuration
+Login to your cloudflare account and buy a domain bassed on your needs
+In home section click on domains and click overview
+Click your domain name
+now click dns and click records
+Click on add records
+keep type A and for name keep it at @ for root name and add your ip in the address section you can get the ip from your virtual machine on Azure vm 
+keep proxied status to on
+Now add another record
+put the type as CNAME and in the name type www and in target put your domain name
+this will make an alias for your webserver so people can access www.yourdomain aswell
+# SSL/TLS configuration
+you can turn on ssl directly from cloudflare but here i will show how to configure ssl via ssh in your webserver
+in the terminal type
+sudo apt install certbot python3-certbot-nginx -y
+obtain and install the certificate
+sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+follow instructions while installing.
+test automatic renewal as certificate expires after some time:
+sudo certbot renew --dry-run
+# Adding script for nginx
+
