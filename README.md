@@ -88,5 +88,4 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 follow instructions while installing.
 test automatic renewal as certificate expires after some time:
 sudo certbot renew --dry-run
-# Adding script for nginx
 
