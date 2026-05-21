@@ -63,7 +63,7 @@ sudo systemctl reload nginx
 create files for different sections of your webserver and paste the code
 1. sudo nano /var/www/html/admin.php
 2. sudo nano /var/www/html/chat.php
-
+3. sudo nano /var/www/html/chat_backend.php #to make sure live chat works.
 
 # Ensure nginx can read your files 
 sudo chown -R www-data:www-data /var/www/html
