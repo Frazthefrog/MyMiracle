@@ -74,7 +74,7 @@ In home section click on domains and click overview
 Click your domain name
 now click dns and click records
 Click on add records
-keep type A and for name keep it at @ for root name and add your ip in the address section you can get the ip from your virtual machine on Azure vm 
+keep type A and for name keep it at @ for root name and add your ip in the address section you can get the ip from your virtual Comachine on Azure vm 
 keep proxied status to on
 Now add another record
 put the type as CNAME and in the name type www and in target put your domain name
@@ -88,4 +88,32 @@ sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 follow instructions while installing.
 test automatic renewal as certificate expires after some time:
 sudo certbot renew --dry-run
+# Configuring FTP.
+Install vsftpd
+use the following command:
+sudo apt update
+sudo apt install vsftpd -y
+Now configure it by going in 
+sudo nano /etc/vsftpd.conf
+and adding or changing these lines specifically:
+anonymous_enable=NO
+local_enable=YES
+write_enable=YES
+local_umask=022
+chroot_local_user=YES
+allow_writeable_chroot=YES
+pasv_enable=YES
+pasv_min_port=40000
+pasv_max_port=50000
+Now restart vsftpd:
+sudo systemctl restart vsftpd
+sudo systemctl enable vsftpd
+After you are done configuring, go to Azure vm and click on networking then settings and click on create new port rule:
+set protocol as TCP, Name as FTP and set service as FTP
+now click add and create another port rule
+in second port rule select service as custom, set port range from 40000 to 50000, set protocol to TCP and put name as FTP-passive.
+**login into your vm through ftp**
+download winscp from https://winscp.net/download/WinSCP-6.5.6-Setup.exe/download
+launch it and put ur ip address username in details, leave password blank and keep file protocol as SFTP go in advanced and under SSH click Authentication  browse to  your_key.pem file and click login
+you should be able to access the files from your vm.
 
