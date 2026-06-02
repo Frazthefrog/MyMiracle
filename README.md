@@ -9,6 +9,7 @@
 2. [SSH into the server](#ssh-into-the-server)
 3. [installing Nginx](#installing-nginx)
 4. [Deploying Website Files](#deploying-website-files)
+5. [User Authentication system](#user-authentication-system)
 # Creating a Virtual Machine
 Web server hosting is offered by multiple sources like Azure, Amazon AWS, or Google Cloud. In this project, I will be using Microsoft Azure. To create a virtual machine to host your web server, go to [https://portal.azure.com/](https://portal.azure.com/)
 
@@ -66,6 +67,7 @@ ssh -i your_key.pem azureuser@your-ip
 You should now have shell access to the server.
 
 ---
+
 # installing nginx
 type the following commands
 ```bash
@@ -78,6 +80,7 @@ enable nginx by typing
 sudo systemctl start nginx
 sudo systemctl enable nginx
 ```
+---
 
 # installign PHP for your php files
 You must install PHP processor:
@@ -153,18 +156,27 @@ sudo chmod -R 755 /var/www/html
 
 ---
 
-# html code
-nano into your html file and paste your html code in there by typing
-nano /var/www/html/index.html
-# Deploying web files
-create files for different sections of your webserver and paste the code
-1. sudo nano /var/www/html/admin.php
-2. sudo nano /var/www/html/chat.php
-3. sudo nano /var/www/html/chat_backend.php #to make sure live chat works.
+# User Authentication System
 
-# Ensure nginx can read your files 
-sudo chown -R www-data:www-data /var/www/html
-sudo chmod -R 755 /var/www/html
+Users must create an account before they can book a consultation. Passwords are stored as bcrypt hashes and the system includes rate limiting and PHP session management.
+
+Ensure session storage is writable:
+
+```bash
+sudo chmod 777 /var/lib/php/sessions
+```
+
+Ensure correct permissions on the data directory:
+
+```bash
+sudo chown -R www-data:www-data /var/www/html/chat_data
+sudo chmod -R 755 /var/www/html/chat_data
+```
+
+Users can now register and login at `yourdomain.com/user_login.php` and will be redirected to their dashboard after signing in.
+
+---
+
 # DNS configuration
 Login to your cloudflare account and buy a domain bassed on your needs
 In home section click on domains and click overview
