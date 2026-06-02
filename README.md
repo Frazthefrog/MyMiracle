@@ -8,6 +8,7 @@
 1. [Creating a virtual Machine](#creating-a-virutal-machine)
 2. [SSH into the server](#ssh-into-the-server)
 3. [installing Nginx](#installing-nginx)
+4. [Deploying Website Files](#deploying-website-files)
 # Creating a Virtual Machine
 Web server hosting is offered by multiple sources like Azure, Amazon AWS, or Google Cloud. In this project, I will be using Microsoft Azure. To create a virtual machine to host your web server, go to [https://portal.azure.com/](https://portal.azure.com/)
 
@@ -31,41 +32,130 @@ Now you have to choose specific options based on your web server needs. For my s
 - If you run into any error, retrace your steps
 - After creating your Virtual Machine, get the IP address from the VM overview page
 - Next step is to SSH into your server and gain access
+
+---
+
 # SSH into the server
-go into the terminal from location where you private key is located. To do this right click on the empty space in the location and click open in terminal
-in your windows terminal type:
+Open the terminal from the location where your private key is stored. On Windows, right-click on the empty space in the folder and click **Open in Terminal**.
+
+On Windows, you must first fix the key file permissions using `icacls` instead of `chmod`:
+
+```cmd
 icacls "Booking_key.pem" /inheritance:r /grant:r "YourWindowsUsername:R"
-or for linux users type:
+```
+
+To find your Windows username, run:
+
+```cmd
+whoami
+```
+
+Use only the part after the backslash. Then SSH in:
+
+```cmd
+ssh -i Booking_key.pem azureuser@your-ip
+```
+
+For Linux/Mac users:
+
+```bash
 chmod 400 your_key.pem
-then
-ssh -i your_key.pem username@your-ip
-you should have access to the server now
+ssh -i your_key.pem azureuser@your-ip
+```
+
+You should now have shell access to the server.
+
+---
 # installing nginx
 type the following commands
+```bash
 sudo apt update
 sudo apt update -y
 sudo apt install nginx -y
+```
 enable nginx by typing
+```bash
 sudo systemctl start nginx
 sudo systemctl enable nginx
-# html code
-nano into your html file and paste your html code in there by typing
-nano /var/www/html/index.html
+```
+
 # installign PHP for your php files
-type 
+You must install PHP processor:
+Type:
+```bash
 sudo apt install php-fpm php-cli -y
+```
 check version number:
+```bash
 php -v
-# configure Nginx to process php
+```
+my server returned PHP 8.3.6
+version 8.3 is needed and should be noted down
+
+Now, fix PHP permissions so sessions work properly:
+```bash
+sudo chmod 777/var/lib/php/sessions
+```
+
+---
+
+# configure Nginx to process PHP
+Open default Nginx Configuration file:
+```bash
 sudo nano /etc/nginx/sites-available/default
+```
 find the location - \.php code and replace it with 
+```nginx
 location ~ \.php$ {
     include snippets/fastcgi-php.conf;
     fastcgi_pass unix:/run/php/php8.3-fpm.sock;
 }
+```
 reload Nginx:
+```nginx
 sudo nginx -t
 sudo systemctl reload nginx
+```
+
+---
+
+# Deploying Website Files
+All website files are placed in `/var/www/html`.
+The following files are needed
+index.html chat.php chat_backend.php admin.php user_login.php user_auth.php dashboard.php get_bookings.php
+
+Create each file using nano:
+```bash
+sudo nano /var/www/html/index.html
+sudo nano /var/www/html/chat.php
+sudo nano /var/www/html/chat_backend.php
+sudo nano /var/www/html/admin.php
+sudo nano /var/www/html/user_login.php
+sudo nano /var/www/html/user_auth.php
+sudo nano /var/www/html/dashboard.php
+sudo nano /var/www/html/get_bookings.php
+```
+Paste the relevant code into each file and save.
+
+Create the required data directories:
+
+```bash
+sudo mkdir -p /var/www/html/chat_data
+sudo mkdir -p /var/www/html/uploads
+```
+
+Ensure Nginx can read and write to all files:
+
+```bash
+sudo chown -R www-data:www-data /var/www/html
+sudo chmod -R 755 /var/www/html
+```
+
+---
+
+# html code
+nano into your html file and paste your html code in there by typing
+nano /var/www/html/index.html
 # Deploying web files
 create files for different sections of your webserver and paste the code
 1. sudo nano /var/www/html/admin.php
