@@ -10,6 +10,11 @@
 3. [installing Nginx](#installing-nginx)
 4. [Deploying Website Files](#deploying-website-files)
 5. [User Authentication system](#user-authentication-system)
+6. [Admin Panel](#admin-panel)
+7. [Live Chat System](#live-chat-system)
+8. [DNS Configuration](#dns-configuration)
+9. [SSL/TLS Configuration](#ssl/tls-configuration)
+10. [FTP Configuration(not required)](#configuring-ftp)
 # Creating a Virtual Machine
 Web server hosting is offered by multiple sources like Azure, Amazon AWS, or Google Cloud. In this project, I will be using Microsoft Azure. To create a virtual machine to host your web server, go to [https://portal.azure.com/](https://portal.azure.com/)
 
@@ -173,38 +178,93 @@ sudo chown -R www-data:www-data /var/www/html/chat_data
 sudo chmod -R 755 /var/www/html/chat_data
 ```
 
-Users can now register and login at `yourdomain.com/user_login.php` and will be redirected to their dashboard after signing in.
+Users can now register and login at the webpage and will be redirected to their dashboard after signing in.
+
+---
+# Admin Panel configuration
+
+nano into the admin file and use `Ctrl+w` and search for admin_pass
+Fine and update these two lines:
+```javascript
+var ADMIN_USER = 'admin';
+var ADMIN_PASS = 'cybershield2026';
+```
+this will be the login details for the admins loging into the admin panel from https://pineraven.com/admin.php
 
 ---
 
+# Live Chat System
+The live chat allows client to open a new live chat to get real-time support. The chat is saved for the admins to view and further contact the client from their email.
+for the live chat,
+Ensure the `chat_data` directory has correct permissions:
+
+```bash
+sudo mkdir -p /var/www/html/chat_data
+sudo chown -R www-data:www-data /var/www/html/chat_data
+sudo chmod -R 755 /var/www/html/chat_data
+```
+
+To verify the chat backend is working:
+
+```bash
+curl http://localhost/chat_backend.php?action=sessions
+```
+
+This should return `{"ok":true,"sessions":[]}`.
+
+---
+
+
 # DNS configuration
-Login to your cloudflare account and buy a domain bassed on your needs
-In home section click on domains and click overview
-Click your domain name
-now click dns and click records
-Click on add records
+Log in to your Cloudflare account and purchase a domain based on your needs. In the home section click on Domains, then click Overview, click your domain name, then click DNS and then Records.
 keep type A and for name keep it at @ for root name and add your ip in the address section you can get the ip from your virtual Comachine on Azure vm 
 keep proxied status to on
 Now add another record
 put the type as CNAME and in the name type www and in target put your domain name
 this will make an alias for your webserver so people can access www.yourdomain aswell
+it should look like this:
+| Type | Name | Value | Proxy |
+|---|---|---|---|
+| A | `@` | `your-ip-address` | Proxied (On) |
+| CNAME | `www` | `yourdomain.com` | Proxied (On) |
+
+dns propogation may take upto 24 hours
+verify status using nslookup:
+```bash
+nslookup pineraven.com
+```
+
+---
+
 # SSL/TLS configuration
-you can turn on ssl directly from cloudflare but here i will show how to configure ssl via ssh in your webserver
-in the terminal type
+You can turn on SSL directly from cloudflare but here I will show how to configure SSL via ssh in your webserver. In the terminal type
+```bash
 sudo apt install certbot python3-certbot-nginx -y
-obtain and install the certificate
+```
+obtain and install the certificate:
+```bash
 sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+```
 follow instructions while installing.
 test automatic renewal as certificate expires after some time:
+```bash
 sudo certbot renew --dry-run
+```
 # Configuring FTP.
+FTP can be configured to view and access your files directly from ftp protocol through applications such as Winscp.
+Here,
 Install vsftpd
 use the following command:
+```bash
 sudo apt update
 sudo apt install vsftpd -y
+```
 Now configure it by going in 
+```bash
 sudo nano /etc/vsftpd.conf
+```
 and adding or changing these lines specifically:
+```
 anonymous_enable=NO
 local_enable=YES
 write_enable=YES
@@ -214,15 +274,24 @@ allow_writeable_chroot=YES
 pasv_enable=YES
 pasv_min_port=40000
 pasv_max_port=50000
+```
 Now restart vsftpd:
+```bash
 sudo systemctl restart vsftpd
 sudo systemctl enable vsftpd
+```
 After you are done configuring, go to Azure vm and click on networking then settings and click on create new port rule:
 set protocol as TCP, Name as FTP and set service as FTP
-now click add and create another port rule
+
+Now click add and create another port rule
 in second port rule select service as custom, set port range from 40000 to 50000, set protocol to TCP and put name as FTP-passive.
+
 **login into your vm through ftp**
 download winscp from https://winscp.net/download/WinSCP-6.5.6-Setup.exe/download
-launch it and put ur ip address username in details, leave password blank and keep file protocol as SFTP go in advanced and under SSH click Authentication  browse to  your_key.pem file and click login
+-Launch it and put ur ip address and username in details
+-Leave password blank 
+-Keep file protocol as SFTP
+-Go in advanced and under SSH click Authentication  browse to  your_key.pem file
+-Click login
 you should be able to access the files from your vm.
 
