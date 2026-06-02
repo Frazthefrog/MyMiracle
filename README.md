@@ -380,7 +380,7 @@ Nginx should be active again. View the log file to confirm the restart was recor
 ```bash
 cat /var/log/nginx_monitor.log
 ```
-
+The live log output can be verified at: https://pineraven.com/nginx_log.php
 ---
 
 ## References
@@ -392,4 +392,5 @@ cat /var/log/nginx_monitor.log
 - vsftpd: https://security.appspot.com/vsftpd.html
 - WinSCP: https://winscp.net/eng/docs/start
 - Cloudflare DNS: https://developers.cloudflare.com/dns/
+- Generative AI used to assist with code styling.
 
