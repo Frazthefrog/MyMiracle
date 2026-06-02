@@ -133,7 +133,7 @@ Find the `index` line near the top of the server block and add `index.php` to it
 index index.php index.html index.htm;
 ```
 reload Nginx:
-```nginx
+```bash
 sudo nginx -t
 sudo systemctl reload nginx
 ```
@@ -202,12 +202,12 @@ Find and update these two lines:
 var ADMIN_USER = 'admin';
 var ADMIN_PASS = 'cybershield2026';
 ```
-this will be the login details for the admins loging into the admin panel from https://pineraven.com/admin.php
+These will be the login details for the admins logging into the admin panel from https://pineraven.com/admin.php
 
 ---
 
 ## Live Chat System
-The live chat allows client to open a new live chat to get real-time support. The chat is saved for the admins to view and further contact the client from their email.
+The live chat allows clients to open a new live chat to get real-time support. The chat is saved for the admins to view and further contact the client from their email.
 for the live chat,
 Ensure the `chat_data` directory has correct permissions:
 
