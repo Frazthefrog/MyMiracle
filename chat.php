@@ -147,7 +147,7 @@ function startChat() {
   fetch(`${BACKEND}?action=send`, {
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({ session_id: sessionId, role:'agent', sender:'CyberShield Support',
-      text: `Hello ${visitorName}! Welcome to CyberShield Consulting. How can we help you today? You can also attach files using the ðŸ“Ž button.` })
+      text: `Hello ${visitorName}! Welcome to CyberShield Consulting. How can we help you today?` })
   });
 
   startPolling();
