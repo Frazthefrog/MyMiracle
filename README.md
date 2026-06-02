@@ -17,6 +17,8 @@
 10. [DNS Configuration](#dns-configuration)
 11. [SSL/TLS Configuration](#ssltls-configuration)
 12. [FTP Configuration(not required)](#configuring-ftp)
+13. [Script](#script)
+14. [References](#References)
 # Creating a Virtual Machine
 Web server hosting is offered by multiple sources like Azure, Amazon AWS, or Google Cloud. In this project, I will be using Microsoft Azure. To create a virtual machine to host your web server, go to [https://portal.azure.com/](https://portal.azure.com/)
 
