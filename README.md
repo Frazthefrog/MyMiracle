@@ -304,3 +304,86 @@ download winscp from https://winscp.net/download/WinSCP-6.5.6-Setup.exe/download
 -Click login
 you should be able to access the files from your vm.
 
+---
+
+## Script
+
+The following Bash script checks whether Nginx is running and automatically restarts it if it has stopped. It also logs each check and any restart events to a log file, which provides an audit trail of server uptime.
+
+```bash
+#!/bin/bash
+# check_nginx.sh
+# Monitors Nginx and restarts it automatically if it stops.
+# Logs all events to /var/log/nginx_monitor.log
+
+SERVICE="nginx"
+LOGFILE="/var/log/nginx_monitor.log"
+TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+
+if systemctl is-active --quiet $SERVICE; then
+    echo "$TIMESTAMP - $SERVICE is running." >> $LOGFILE
+else
+    echo "$TIMESTAMP - $SERVICE was not running. Attempting restart..." >> $LOGFILE
+    sudo systemctl restart $SERVICE
+    if systemctl is-active --quiet $SERVICE; then
+        echo "$TIMESTAMP - $SERVICE restarted successfully." >> $LOGFILE
+    else
+        echo "$TIMESTAMP - $SERVICE failed to restart." >> $LOGFILE
+    fi
+fi
+```
+
+### How to Deploy the Script
+
+Save the script to the server:
+
+```bash
+sudo nano /usr/local/bin/check_nginx.sh
+```
+
+Make it executable:
+
+```bash
+sudo chmod +x /usr/local/bin/check_nginx.sh
+```
+
+Schedule it to run every 5 minutes using cron:
+
+```bash
+crontab -e
+```
+
+Add the following line:
+
+```
+*/5 * * * * /usr/local/bin/check_nginx.sh
+```
+
+### Verifying the Script Works
+
+Stop Nginx manually and run the script to confirm it restarts Nginx:
+
+```bash
+sudo systemctl stop nginx
+sudo /usr/local/bin/check_nginx.sh
+sudo systemctl status nginx
+```
+
+Nginx should be active again. View the log file to confirm the restart was recorded:
+
+```bash
+cat /var/log/nginx_monitor.log
+```
+
+---
+
+## References
+
+- Microsoft Azure Virtual Machine Documentation: https://learn.microsoft.com/en-us/azure/virtual-machines/
+- Nginx: https://nginx.org/en/docs/
+- Certbot (Let's Encrypt) for Nginx on Ubuntu: https://certbot.eff.org/
+- PHP-FPM with Nginx: https://www.php.net/manual/en/install.fpm.php
+- vsftpd: https://security.appspot.com/vsftpd.html
+- WinSCP: https://winscp.net/eng/docs/start
+- Cloudflare DNS: https://developers.cloudflare.com/dns/
+
