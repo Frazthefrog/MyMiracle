@@ -1,8 +1,8 @@
 ## Server Access Details
 |Property|Value|
 |---|---|
-| IP Address | '104.214.189.100' |
-|DNS|'pineraven.com'|
+| IP Address | `104.214.189.100` |
+|DNS|`pineraven.com`|
 
 ## Table of Content
 1. [Creating a virtual Machine](#creating-a-virutal-machine)
