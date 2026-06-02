@@ -5,7 +5,7 @@
 |DNS|`pineraven.com`|
 
 ## Table of Content
-1. [Creating a virtual Machine](#creating-a-virutal-machine)
+1. [Creating a virtual Machine](#creating-a-virtual-machine)
 2. [SSH into the server](#ssh-into-the-server)
 3. [installing Nginx](#installing-nginx)
 4. [Deploying Website Files](#deploying-website-files)
@@ -41,7 +41,7 @@ Now you have to choose specific options based on your web server needs. For my s
 
 ---
 
-# SSH into the server
+## SSH into the server
 Open the terminal from the location where your private key is stored. On Windows, right-click on the empty space in the folder and click **Open in Terminal**.
 
 On Windows, you must first fix the key file permissions using `icacls` instead of `chmod`:
@@ -73,11 +73,10 @@ You should now have shell access to the server.
 
 ---
 
-# installing nginx
+## installing nginx
 type the following commands
 ```bash
 sudo apt update
-sudo apt update -y
 sudo apt install nginx -y
 ```
 enable nginx by typing
@@ -87,7 +86,7 @@ sudo systemctl enable nginx
 ```
 ---
 
-# installign PHP for your php files
+## installing PHP for your php files
 You must install PHP processor:
 Type:
 ```bash
@@ -102,12 +101,12 @@ version 8.3 is needed and should be noted down
 
 Now, fix PHP permissions so sessions work properly:
 ```bash
-sudo chmod 777/var/lib/php/sessions
+sudo chmod 777 /var/lib/php/sessions
 ```
 
 ---
 
-# configure Nginx to process PHP
+## configure Nginx to process PHP
 Open default Nginx Configuration file:
 ```bash
 sudo nano /etc/nginx/sites-available/default
@@ -119,6 +118,12 @@ location ~ \.php$ {
     fastcgi_pass unix:/run/php/php8.3-fpm.sock;
 }
 ```
+also 
+Find the `index` line near the top of the server block and add `index.php` to it:
+
+```nginx
+index index.php index.html index.htm;
+```
 reload Nginx:
 ```nginx
 sudo nginx -t
@@ -127,7 +132,7 @@ sudo systemctl reload nginx
 
 ---
 
-# Deploying Website Files
+## Deploying Website Files
 All website files are placed in `/var/www/html`.
 The following files are needed
 index.html chat.php chat_backend.php admin.php user_login.php user_auth.php dashboard.php get_bookings.php
@@ -161,7 +166,7 @@ sudo chmod -R 755 /var/www/html
 
 ---
 
-# User Authentication System
+## User Authentication System
 
 Users must create an account before they can book a consultation. Passwords are stored as bcrypt hashes and the system includes rate limiting and PHP session management.
 
@@ -181,7 +186,7 @@ sudo chmod -R 755 /var/www/html/chat_data
 Users can now register and login at the webpage and will be redirected to their dashboard after signing in.
 
 ---
-# Admin Panel configuration
+## Admin Panel configuration
 
 nano into the admin file and use `Ctrl+w` and search for admin_pass
 Fine and update these two lines:
@@ -193,7 +198,7 @@ this will be the login details for the admins loging into the admin panel from h
 
 ---
 
-# Live Chat System
+## Live Chat System
 The live chat allows client to open a new live chat to get real-time support. The chat is saved for the admins to view and further contact the client from their email.
 for the live chat,
 Ensure the `chat_data` directory has correct permissions:
@@ -215,7 +220,7 @@ This should return `{"ok":true,"sessions":[]}`.
 ---
 
 
-# DNS configuration
+## DNS configuration
 Log in to your Cloudflare account and purchase a domain based on your needs. In the home section click on Domains, then click Overview, click your domain name, then click DNS and then Records.
 keep type A and for name keep it at @ for root name and add your ip in the address section you can get the ip from your virtual Comachine on Azure vm 
 keep proxied status to on
@@ -236,7 +241,7 @@ nslookup pineraven.com
 
 ---
 
-# SSL/TLS configuration
+## SSL/TLS configuration
 You can turn on SSL directly from cloudflare but here I will show how to configure SSL via ssh in your webserver. In the terminal type
 ```bash
 sudo apt install certbot python3-certbot-nginx -y
@@ -250,7 +255,10 @@ test automatic renewal as certificate expires after some time:
 ```bash
 sudo certbot renew --dry-run
 ```
-# Configuring FTP.
+
+---
+
+## Configuring FTP.
 FTP can be configured to view and access your files directly from ftp protocol through applications such as Winscp.
 Here,
 Install vsftpd
@@ -275,7 +283,7 @@ pasv_enable=YES
 pasv_min_port=40000
 pasv_max_port=50000
 ```
-Now restart vsftpd:
+No['w restart vsftpd:
 ```bash
 sudo systemctl restart vsftpd
 sudo systemctl enable vsftpd
