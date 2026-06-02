@@ -4,7 +4,8 @@
 | IP Address | '104.214.189.100' |
 |DNS|'pineraven.com'|
 
-# MyMiracle
+## Table of Content
+[Creating a virtual Machine](#Creating-a-Virutal-Machine)
 # Creating a Virtual Machine
 Web server hosting is offered by multiple sources like Azure, Amazon AWS or Google Cloud etc. In this project, I will be using Microsoft Azure. To create a virtual machine to host your web server, go to https://portal.azure.com/
 After creating your account, go to the home page.
