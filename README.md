@@ -8,13 +8,15 @@
 1. [Creating a virtual Machine](#creating-a-virtual-machine)
 2. [SSH into the server](#ssh-into-the-server)
 3. [installing Nginx](#installing-nginx)
-4. [Deploying Website Files](#deploying-website-files)
-5. [User Authentication system](#user-authentication-system)
-6. [Admin Panel](#admin-panel-configuration)
-7. [Live Chat System](#live-chat-system)
-8. [DNS Configuration](#dns-configuration)
-9. [SSL/TLS Configuration](#ssltls-configuration)
-10. [FTP Configuration(not required)](#configuring-ftp)
+4. [Installing PHP](#installing-php-for-your-php-files)
+5. [Configuring nginx to process PHP](#configure-nginx-to-process-php)
+6. [Deploying Website Files](#deploying-website-files)
+7. [User Authentication system](#user-authentication-system)
+8. [Admin Panel](#admin-panel-configuration)
+9. [Live Chat System](#live-chat-system)
+10. [DNS Configuration](#dns-configuration)
+11. [SSL/TLS Configuration](#ssltls-configuration)
+12. [FTP Configuration(not required)](#configuring-ftp)
 # Creating a Virtual Machine
 Web server hosting is offered by multiple sources like Azure, Amazon AWS, or Google Cloud. In this project, I will be using Microsoft Azure. To create a virtual machine to host your web server, go to [https://portal.azure.com/](https://portal.azure.com/)
 
@@ -189,7 +191,7 @@ Users can now register and login at the webpage and will be redirected to their 
 ## Admin Panel configuration
 
 nano into the admin file and use `Ctrl+w` and search for admin_pass
-Fine and update these two lines:
+Find and update these two lines:
 ```javascript
 var ADMIN_USER = 'admin';
 var ADMIN_PASS = 'cybershield2026';
@@ -222,7 +224,7 @@ This should return `{"ok":true,"sessions":[]}`.
 
 ## DNS configuration
 Log in to your Cloudflare account and purchase a domain based on your needs. In the home section click on Domains, then click Overview, click your domain name, then click DNS and then Records.
-keep type A and for name keep it at @ for root name and add your ip in the address section you can get the ip from your virtual Comachine on Azure vm 
+keep type A and for name keep it at @ for root name and add your ip in the address section you can get the ip from your virtual machine on Azure vm 
 keep proxied status to on
 Now add another record
 put the type as CNAME and in the name type www and in target put your domain name
@@ -264,7 +266,6 @@ Here,
 Install vsftpd
 use the following command:
 ```bash
-sudo apt update
 sudo apt install vsftpd -y
 ```
 Now configure it by going in 
@@ -283,7 +284,7 @@ pasv_enable=YES
 pasv_min_port=40000
 pasv_max_port=50000
 ```
-No['w restart vsftpd:
+Now restart vsftpd:
 ```bash
 sudo systemctl restart vsftpd
 sudo systemctl enable vsftpd
