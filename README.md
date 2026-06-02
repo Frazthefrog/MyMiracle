@@ -5,32 +5,32 @@
 |DNS|'pineraven.com'|
 
 ## Table of Content
-[Creating a virtual Machine](#Creating-a-Virutal-Machine)
+1. [Creating a virtual Machine](#creating-a-virutal-machine)
+2. [SSH into the server](#ssh-into-the-server)
+3. [installing Nginx](#installing-nginx)
 # Creating a Virtual Machine
-Web server hosting is offered by multiple sources like Azure, Amazon AWS or Google Cloud etc. In this project, I will be using Microsoft Azure. To create a virtual machine to host your web server, go to https://portal.azure.com/
-After creating your account, go to the home page.
-Click the Virtual Machine button under Azure services.
-In the Virtual Machine section, click the Create button, and a drop-down box will appear. Click the virtual machine button.
-Now you have to choose specific options bassed on your web server needs, For my simple web server the instructions are as follows:
-Choose the subscription as Virtual Computing Lab.
-Under the Resource Group bar, click Create New. Type a name for your new Resource Group
-Scroll down and type a name for your virtual machine.
-Now choose a region for your server. I chose the East Asia region.
-Scroll down and choose a zone as per your need, or leave it as default.
-After that, in the image drop-down bar, click the Ubuntu Server 24.04 x64 Gen2.
-The next step is to choose an appropriate VM size based on your server's needs. The Standard_B2ats_v2 works well for a small web server.
-For the authentication type, leave it on SSH public key and save this key in a safe disk space. You should be able to download this key in the last step when you create the Virtual Machine. If you lose this key, you will not be able to gain access to the server.
-Type a name for your key if it is not already filled in.
-Next, select these three ports: HTTP, HTTPS, and SSH.
-Click next.
-Choose one of the disk size options or leave as default.
-For the disk type, choose a standard SSD type.
-Now click Next: Networking.
-Here, choose a Virtual network and a subnet if not already set by default.
-Leave everything else as default and move to review and create.
-If you run into any error, retrace your steps.
-After creating your Virtual machine, get the IP address.
-Next step is to SSH into your server and gain access.
+Web server hosting is offered by multiple sources like Azure, Amazon AWS, or Google Cloud. In this project, I will be using Microsoft Azure. To create a virtual machine to host your web server, go to [https://portal.azure.com/](https://portal.azure.com/)
+
+After creating your account, go to the home page. Click the Virtual Machine button under Azure services. In the Virtual Machine section, click the Create button, and a drop-down box will appear. Click the virtual machine button.
+
+Now you have to choose specific options based on your web server needs. For my simple web server, the instructions are as follows:
+ -Choose the subscription as **Virtual Computing Lab**
+- Under the Resource Group bar, click **Create New** and type a name for your new Resource Group
+- Scroll down and type a name for your virtual machine
+- Choose a region for your server. I chose the **East Asia** region
+- Scroll down and choose a zone as per your need, or leave it as default
+- In the image drop-down bar, select **Ubuntu Server 24.04 x64 Gen2**
+- Choose an appropriate VM size based on your server needs. **Standard_B2ats_v2** works well for a small web server
+- For the authentication type, leave it on **SSH public key** and save this key in a safe location. You should be able to download this key in the last step when you create the Virtual Machine. If you lose this key, you will not be able to gain access to the server
+- Type a name for your key if it is not already filled in
+- Select these three inbound ports: **HTTP**, **HTTPS**, and **SSH**
+- Click Next, choose one of the disk size options or leave as default
+- For the disk type, choose a **Standard SSD**
+- Click **Next: Networking**, choose a Virtual network and a subnet if not already set by default
+- Leave everything else as default and move to **Review and Create**
+- If you run into any error, retrace your steps
+- After creating your Virtual Machine, get the IP address from the VM overview page
+- Next step is to SSH into your server and gain access
 # SSH into the server
 go into the terminal from location where you private key is located. To do this right click on the empty space in the location and click open in terminal
 in your windows terminal type:
