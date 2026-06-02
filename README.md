@@ -10,7 +10,7 @@
 3. [installing Nginx](#installing-nginx)
 4. [Deploying Website Files](#deploying-website-files)
 5. [User Authentication system](#user-authentication-system)
-6. [Admin Panel](#admin-panel)
+6. [Admin Panel](#admin-panel-configuration)
 7. [Live Chat System](#live-chat-system)
 8. [DNS Configuration](#dns-configuration)
 9. [SSL/TLS Configuration](#ssltls-configuration)
