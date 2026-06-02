@@ -13,7 +13,7 @@
 6. [Admin Panel](#admin-panel)
 7. [Live Chat System](#live-chat-system)
 8. [DNS Configuration](#dns-configuration)
-9. [SSL/TLS Configuration](#ssl/tls-configuration)
+9. [SSL/TLS Configuration](#ssltls-configuration)
 10. [FTP Configuration(not required)](#configuring-ftp)
 # Creating a Virtual Machine
 Web server hosting is offered by multiple sources like Azure, Amazon AWS, or Google Cloud. In this project, I will be using Microsoft Azure. To create a virtual machine to host your web server, go to [https://portal.azure.com/](https://portal.azure.com/)
