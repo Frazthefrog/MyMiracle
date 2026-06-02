@@ -15,9 +15,9 @@ $action = $_GET['action'] ?? '';
 if ($action === 'send') {
     $body = json_decode(file_get_contents('php://input'), true);
     $sessionId = preg_replace('/[^a-zA-Z0-9_-]/', '', $body['session_id'] ?? '');
-    $sender    = htmlspecialchars($body['sender'] ?? 'Unknown', ENT_QUOTES);
+    $sender    = htmlspecialchars($body['sender'] ?? 'Unknown', ENT_COMPAT);
     $role      = in_array($body['role'], ['user','agent']) ? $body['role'] : 'user';
-    $text      = htmlspecialchars($body['text'] ?? '', ENT_QUOTES);
+    $text      = htmlspecialchars($body['text'] ?? '', ENT_COMPAT);
 
     if (!$sessionId || !$text) {
         echo json_encode(['ok' => false, 'error' => 'Missing fields']);
@@ -102,8 +102,8 @@ if ($action === 'meta') {
     $file = "$dataDir/$sessionId.json";
     $data = file_exists($file) ? json_decode(file_get_contents($file), true) : ['messages'=>[], 'meta'=>[]];
     $data['meta'] = [
-        'name'    => htmlspecialchars($body['name'] ?? '', ENT_QUOTES),
-        'email'   => htmlspecialchars($body['email'] ?? '', ENT_QUOTES),
+        'name'    => htmlspecialchars($body['name'] ?? '', ENT_COMPAT),
+        'email'   => htmlspecialchars($body['email'] ?? '', ENT_COMPAT),
         'started' => date('Y-m-d H:i:s')
     ];
     file_put_contents($file, json_encode($data));
