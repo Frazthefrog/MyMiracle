@@ -1,4 +1,6 @@
 ## Server Access Details
+|Property|Value|
+|---|---|
 | IP Address | '104.214.189.100' |
 |DNS|'pineraven.com'|
 
