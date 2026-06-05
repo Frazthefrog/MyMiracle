@@ -1,6 +1,5 @@
 ## Student Details
 **Student Name:** `Fraz Umar`
-**Student ID:** `35962555`
 **Video Explainer:** `link`
 ## Server Access Details
 |Property|Value|
