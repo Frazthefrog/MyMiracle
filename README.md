@@ -198,8 +198,8 @@ Users can now register and login at the webpage and will be redirected to their 
 nano into the admin file and use `Ctrl+w` and search for admin_pass
 Find and update these two lines:
 ```javascript
-var ADMIN_USER = 'admin';
-var ADMIN_PASS = 'cybershield2026';
+var ADMIN_USER = 'frog';
+var ADMIN_PASS = 'Mypassword';
 ```
 These will be the login details for the admins logging into the admin panel from https://pineraven.com/admin.php
 
