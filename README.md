@@ -353,6 +353,12 @@ Make it executable:
 ```bash
 sudo chmod +x /usr/local/bin/check_nginx.sh
 ```
+Create the log file with correct permissions:
+
+```bash
+sudo touch /var/log/nginx_monitor.log
+sudo chmod 666 /var/log/nginx_monitor.log
+```
 
 Schedule it to run every 5 minutes using cron:
 
