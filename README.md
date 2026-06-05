@@ -267,6 +267,7 @@ sudo certbot renew --dry-run
 ---
 
 ## Configuring FTP.
+WARNING: FTP is not secure and you should not deploy it to your server, I just use it for testing, and downloading my server files quickly.
 FTP can be configured to view and access your files directly from ftp protocol through applications such as Winscp.
 Here,
 Install vsftpd
